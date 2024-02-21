@@ -15,10 +15,7 @@ app.use(cors({
   origin:true, // 출처 허용 옵션
   credentials:true, // 사용자 인증이 필요한 리소스(쿠키 ..등) 접근
 }));
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  //res.header("Access-Control-Allow-Origin", "https://localhost:3000"); // 특정 도메인
-});
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
