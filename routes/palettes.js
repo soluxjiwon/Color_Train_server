@@ -8,6 +8,19 @@ const { createCanvas } = require('canvas');
 const { auth } = require("../middleware/auth");
 const colorsys = require('colorsys');
 
+//router 설정
+router.use(function(req, res, next) {
+
+    res.header("Access-Control-Allow-Origin", "https://localhost:3000");
+    
+    res.header("Access-Control-Allow-Credentials", true);
+    
+    res.setHeader("Set-Cookie", "key=value; HttpOnly; SameSite=None")
+    
+    next();
+    
+    });
+
 //=================================
 //             Palette
 //=================================
