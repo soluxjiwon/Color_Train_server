@@ -5,13 +5,13 @@ const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
 
 //router 설정
-/*router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://localhost:3000");
+router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://web-colortrain-client-am952nlsu6unuj.sel5.cloudtype.app/");
     res.header("Access-Control-Allow-Credentials", true);  
     res.setHeader("Set-Cookie", "key=value; HttpOnly; SameSite=None") 
 
     next();
-    });*/
+    });
 
 //=================================
 //             User
