@@ -13,10 +13,15 @@ const config=require('./config/dev');
 //cors설정한 부분
 app.use(cors({
   //origin:true, // 출처 허용 옵션
-  origin:"https://localhost:3000",
+  origin:["https://localhost:3000","https://web-colortrain-client-am952nlsu6unuj.sel5.cloudtype.app/"],
   credentials:true, // 사용자 인증이 필요한 리소스(쿠키 ..등) 접근
 }));
-
+app.all('*', function(req, res, next) {
+  const origin = cors.origin.includes(req.header('origin').toLowerCase()) ? req.headers.origin : cors.default;
+  res.header("Access-Control-Allow-Origin", origin);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
