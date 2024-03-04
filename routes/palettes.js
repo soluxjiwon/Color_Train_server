@@ -70,6 +70,13 @@ router.post('/recent', auth, async(req, res)=>{
         const palette = await Palette.findOne({title:req.user.rp})
         const id = palette._id
         const mod = req.body.mod
+        const page = parseInt(req.query.page) || 1;     // 페이지 번호 기본값 1
+        const itemsNum = 20;    
+
+        const paging = {
+            skip: (page -1) * itemsNum,
+            limit: itemsNum
+        };
         
         let main = palette.tags[0];
         let tag, stag;
@@ -89,7 +96,7 @@ router.post('/recent', auth, async(req, res)=>{
     
         }
         stag = [main, tag];
-        result = await Palette.find({tags:{$all:stag}, maker:0, _id:{$ne : id}})
+        result = await Palette.find({tags:{$all:stag}, maker:0, _id:{$ne : id}}, null, paging)
 
         return res.json({result})
     }
@@ -98,12 +105,20 @@ router.post('/recent', auth, async(req, res)=>{
     }
 })
 
-router.get('/test', async(req, res)=>{
+router.get('/all', async(req, res)=>{
     try{
+        const page = parseInt(req.query.page) || 1;     // 페이지 번호 기본값 1
+        const itemsNum = 20;    
 
-    return res.json({mod})
+        const paging = {
+            skip: (page -1) * itemsNum,
+            limit: itemsNum
+        };
+        const result = await Palette.find({}, null, paging);
+
+        return res.json({result});
     }catch(err){
-        return res.json({success:false, err});
+      return res.json({success:false, err}); 
     }
 })
 
@@ -297,7 +312,7 @@ router.post('/save', auth, async(req, res)=>{
 })
 
 //전체 팔레트 조회
-router.get('/all', async(req, res)=>{
+/*router.get('/all', async(req, res)=>{
     try{
         const palettes = await Palette.find({})
         return res.status(200).send({
@@ -307,7 +322,7 @@ router.get('/all', async(req, res)=>{
     catch(err){
         return res.json({success:false, err})
     }
-})
+})*/
 
 //특정 팔레트 조회
 router.get('/:id', async(req, res)=>{
@@ -426,5 +441,14 @@ router.put('/update', auth, async(req, res)=>{
     }
 })
 
+
+router.get('/test', async(req, res)=>{
+    try{
+
+    return res.json({mod})
+    }catch(err){
+        return res.json({success:false, err});
+    }
+})
 
 module.exports = router;
