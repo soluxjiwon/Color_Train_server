@@ -67,9 +67,6 @@ router.get('/search', async(req, res)=>{
 //tag의 앞선 순서는 주색상, 부색상, 제작 스타일, 테마 4개로 이루어지며, 각 모드의 검색은 무조건 주색상을 포함하여 이루어짐
 router.post('/recent', auth, async(req, res)=>{
     try{
-        const palette = await Palette.findOne({title:req.user.rp})
-        const id = palette._id
-        const mod = req.body.mod
         const page = parseInt(req.query.page) || 1;     // 페이지 번호 기본값 1
         const itemsNum = 20;    
 
@@ -77,6 +74,17 @@ router.post('/recent', auth, async(req, res)=>{
             skip: (page -1) * itemsNum,
             limit: itemsNum
         };
+
+        let result
+        if(!req.user.rp){
+            result = await Palette.find({}, null, paging);
+            return res.json({result})
+        }
+        const palette = await Palette.findOne({title:req.user.rp})
+        const id = palette._id
+        const mod = req.body.mod
+
+        
         
         let main = palette.tags[0];
         let tag, stag;
