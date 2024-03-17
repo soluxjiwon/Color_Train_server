@@ -10,7 +10,7 @@ const colorsys = require('colorsys');
 
 //router 설정
 router.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://www.colortrain.xyz");
+    res.header("Access-Control-Allow-Origin", "https://localhost:3000");
     //"https://localhost:3000"
     //"https://web-colortrain-client-am952nlsu6unuj.sel5.cloudtype.app"
     //"https://www.colortrain.xyz"
