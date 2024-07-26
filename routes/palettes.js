@@ -11,8 +11,9 @@ const colorsys = require('colorsys');
 //router 설정
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "https://localhost:3000");
-    //"https://localhost:3000"""
+    //"https://localhost:3000"
     //"https://web-colortrain-client-am952nlsu6unuj.sel5.cloudtype.app"
+    //"https://www.colortrain.xyz"
     res.header("Access-Control-Allow-Credentials", true);  
     res.setHeader("Set-Cookie", "key=value; HttpOnly; SameSite=None") 
      
@@ -88,6 +89,7 @@ router.post('/recent', auth, async(req, res)=>{
         
         let main = palette.tags[0];
         let tag, stag;
+        let etc;
 
         switch(mod){
             case "color":
@@ -105,6 +107,7 @@ router.post('/recent', auth, async(req, res)=>{
         }
         stag = [main, tag];
         result = await Palette.find({tags:{$all:stag}, maker:0, _id:{$ne : id}}, null, paging)
+        //etc = await Palette.find({tags:{$ne : stag}}, null, paging);
 
         return res.json({result})
     }
